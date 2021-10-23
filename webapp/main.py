@@ -8,6 +8,8 @@
 
 from flask import Flask
 
+from config import Config
+
 from app.iot.views import *
 from app.mock.views import *
 from app.user.views import *
@@ -21,4 +23,4 @@ app.register_blueprint(user, url_prefix='/userApi')
 app.register_blueprint(mockApp, url_prefix='/mock')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host=Config.host, port=Config.port)

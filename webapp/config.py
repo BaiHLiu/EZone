@@ -8,3 +8,4 @@
 class Config:
     host = '127.0.0.1'
     port = 5000
+    work_dir = '/Users/catop/Desktop/大学资料/tech/EZone'

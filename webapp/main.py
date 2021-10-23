@@ -4,15 +4,20 @@
 # @Author  : Catop
 # @File    : main.py
 # @Software: PyCharm
+import os
+import sys
+
+p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
+if p not in sys.path:
+    sys.path.append(p)
 
 
 from flask import Flask
 
-from config import Config
-
 from app.iot.views import *
 from app.mock.views import *
 from app.user.views import *
+from config import Config
 
 # 创建app
 app = Flask(__name__)

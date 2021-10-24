@@ -6,6 +6,12 @@
 # @Software: PyCharm
 
 import os
+import sys
+p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
+if p not in sys.path:
+    sys.path.append(p)
+
+
 import zipfile
 from datetime import datetime
 from ftplib import FTP
@@ -104,5 +110,5 @@ def work():
 
 
 if __name__ == "__main__":
-    # work()
-    uploadFTP('./tmpFiles/out.zip')
+    work()
+    # uploadFTP('./tmpFiles/out.zip')

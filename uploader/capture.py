@@ -7,19 +7,21 @@
 
 import os
 import zipfile
-import cv2
-import threading
+from datetime import datetime
 from ftplib import FTP
 
-from datetime import datetime
-from webapp.utils import mysqlDB
+import requests
+import cv2
+
 from webapp.config import uploaderConfig
+from webapp.utils import mysqlDB
 
 IMAGE_PATH = './images/'
 
+
 def getCamList():
     '''从数据库查询摄像机列表'''
-    dbList = mysqlDB.dbGet("SELECT id,ip FROM dev_info",[])
+    dbList = mysqlDB.dbGet("SELECT id,ip FROM dev_info", [])
     return dbList
 
 
@@ -51,7 +53,6 @@ def getImgFromList():
             print(f'[!]Failed:{id} in {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')
 
 
-
 def zipDir(dirpath, outFullName):
     '''
     压缩指定文件夹
@@ -69,6 +70,7 @@ def zipDir(dirpath, outFullName):
     zip.close()
     print("[+]压缩文件成功")
 
+
 def uploadFTP(fileName):
     try:
         f = FTP()
@@ -76,13 +78,18 @@ def uploadFTP(fileName):
         f.login(uploaderConfig.ftp_username, uploaderConfig.ftp_password)
         f.cwd('/')
         file = open(fileName, 'rb')
-        f.storbinary('STOR %s' % os.path.basename(fileName),file)
+        f.storbinary('STOR %s' % os.path.basename(fileName), file)
         file.close()
         f.quit()
     except:
         print("[!]文件上传FTP失败")
     else:
         print("[+]文件上传FTP成功")
+
+def callDetector():
+    '''调用yolox http api'''
+    requests.get(uploaderConfig.detector_api)
+    print("[+]调用识别接口成功")
 
 
 def work():
@@ -94,6 +101,7 @@ def work():
         print("[!]任务失败")
     else:
         print("[+]成功完成所有任务")
+
 
 if __name__ == "__main__":
     # work()

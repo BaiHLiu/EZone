@@ -8,21 +8,23 @@
 from flask import jsonify
 
 
-def error(msg, err_code, body=None):
+def error(err_code, prompt='操作失败', msg='error', body=None):
     ret = {
         'msg': msg,
         'err_code': err_code,
-        'body': body
+        'body': body,
+        'prompt': prompt
     }
 
     return jsonify(ret)
 
 
-def success(body=None):
+def success(prompt='操作成功', body=None, msg='ok'):
     ret = {
-        'msg': 'ok',
+        'msg': msg,
         'err_code': 0,
-        'body': body
+        'body': body,
+        'prompt': prompt
     }
 
     return jsonify(ret)

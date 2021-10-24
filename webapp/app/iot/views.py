@@ -4,11 +4,19 @@
 # @Author  : Catop
 # @File    : views.py
 # @Software: PyCharm
-from flask import Blueprint
+import json
 
-iot = Blueprint('iot', __name__)
+from flask import Blueprint, request
+import webapp.libs as libs
+from webapp.utils import mysqlDB
 
+iotAPI = Blueprint('iotAPI', __name__)
 
-@iot.route('/test')
+@iotAPI.route('/upload', methods=['POST'])
 def show():
+    data = libs.request.request_parse(request)
+    body = json.loads(data['body'])
+
+    print(body)
+
     return 'iot.hello'

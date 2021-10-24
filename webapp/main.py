@@ -23,7 +23,7 @@ from config import webAppConfig
 app = Flask(__name__)
 
 # 注册蓝图
-app.register_blueprint(iot, url_prefix='/iotApi')
+app.register_blueprint(iotAPI, url_prefix='/iotAPI')
 app.register_blueprint(userAPI, url_prefix='/userAPI')
 app.register_blueprint(mockApp, url_prefix='/mock')
 

@@ -102,6 +102,7 @@ def work():
         getImgFromList()
         zipDir('./images/', './tmpFiles/out.zip')
         uploadFTP('./tmpFiles/out.zip')
+        callDetector()
         print("[+]成功完成所有任务")
 
 

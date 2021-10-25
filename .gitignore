@@ -3,5 +3,3 @@
 __pycache__
 /webapp/config.py
 /uploader/initTools/*
-/uploader/images/*
-/uploader/tmpFiles/*

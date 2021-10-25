@@ -99,13 +99,9 @@ def callDetector():
 
 
 def work():
-    try:
         getImgFromList()
         zipDir('./images/', './tmpFiles/out.zip')
         uploadFTP('./tmpFiles/out.zip')
-    except:
-        print("[!]任务失败")
-    else:
         print("[+]成功完成所有任务")
 
 

@@ -17,6 +17,8 @@ from flask import Flask
 from app.iot.views import *
 from app.mock.views import *
 from app.user.views import *
+from app.statistics.views import *
+
 from config import webAppConfig
 
 # 创建app
@@ -26,6 +28,7 @@ app = Flask(__name__)
 app.register_blueprint(iotAPI, url_prefix='/iotAPI')
 app.register_blueprint(userAPI, url_prefix='/userAPI')
 app.register_blueprint(mockApp, url_prefix='/mock')
+app.register_blueprint(statisticsAPI, url_prefix='/statisticsAPI')
 
 if __name__ == '__main__':
     app.run(host=webAppConfig.host, port=webAppConfig.port)

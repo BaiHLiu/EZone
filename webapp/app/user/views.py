@@ -13,7 +13,7 @@ from webapp.utils import rdsCache
 
 userAPI = Blueprint('userAPI', __name__)
 
-
+# alias
 def getReqData(request):
     data = libs.request.request_parse(request)
     return data

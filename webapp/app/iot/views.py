@@ -17,10 +17,10 @@ iotAPI = Blueprint('iotAPI', __name__)
 def show():
     data = libs.request.request_parse(request)
     retDict = json.loads(data['body'])
+    time = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
 
     for imgName in retDict.keys():
         try:
-            time = datetime.datetime.strftime(datetime.datetime.now(),'%Y-%m-%d %H:%M:%S')
             dev_id = int(imgName.split('/')[-1].split('.')[0])
             people_num = int(retDict[imgName])
             mysqlDB.dbSet("INSERT INTO upload_log(dev_id,people_num,upload_time) VALUES (%s,%s,%s)",[dev_id,people_num,time])

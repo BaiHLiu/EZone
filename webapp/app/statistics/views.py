@@ -20,6 +20,20 @@ def getReqData(request):
     data = libs.request.request_parse(request)
     return data
 
+@statisticsAPI.route('/getBuildings', methods=['GET'])
+def getBuildings():
+    """
+    获取所有楼宇名称
+    :return:
+    """
+
+    sqlRet = mysqlDB.dbGet("SELECT name FROM building_info",[])
+    buildingList = []
+    for build in sqlRet:
+        buildingList.append(build['name'])
+
+    return libs.apiResp.success(body=buildingList)
+
 
 @statisticsAPI.route('/getDailySumData', methods=['GET'])
 def getDailySumData():

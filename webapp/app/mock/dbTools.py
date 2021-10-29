@@ -5,6 +5,10 @@
 # @File    : dbTools.py
 # @Software: PyCharm
 
+import sys
+sys.path.append("../../../")
+
+
 from webapp.utils import mysqlDB
 
 

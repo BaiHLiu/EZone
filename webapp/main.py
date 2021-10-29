@@ -20,6 +20,7 @@ from app.user.views import *
 from app.statistics.views import *
 
 from config import webAppConfig
+from scheduler import statCache
 
 # 创建app
 app = Flask(__name__)
@@ -31,4 +32,7 @@ app.register_blueprint(mockApp, url_prefix='/mock')
 app.register_blueprint(statisticsAPI, url_prefix='/statisticsAPI')
 
 if __name__ == '__main__':
+    statCache.rdsSetRTData()
+    statCache.scheduler.start()
     app.run(host=webAppConfig.host, port=webAppConfig.port)
+

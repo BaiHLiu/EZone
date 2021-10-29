@@ -7,7 +7,6 @@
 # 用于统计数据
 
 from webapp.utils import mysqlDB
-from webapp.utils import rdsCache
 
 
 def getDevInfo(devId):
@@ -26,7 +25,8 @@ def getDailySum(date):
     :param date: 日期格式为'2021-10-26'
     :return:
     """
-    sqlRet = mysqlDB.dbGet("SELECT dev_id,people_num,upload_time FROM upload_log WHERE upload_time LIKE %s", [date+'%'])
+    sqlRet = mysqlDB.dbGet("SELECT dev_id,people_num,upload_time FROM upload_log WHERE upload_time LIKE %s",
+                           [date + '%'])
     # 提取每个时间点总数
     timelyData = {}
     for upinfo in sqlRet:
@@ -39,8 +39,9 @@ def getDailySum(date):
         else:
             timelyData[upTime] = peopleNum
 
-
     return timelyData
+
+
 
 if __name__ == '__main__':
     print(getDevInfo(7))

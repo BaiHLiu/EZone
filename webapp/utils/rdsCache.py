@@ -37,6 +37,8 @@ def veriToken(openid):
 
     return rds.get(keyName)
 
+
+
 if __name__ == "__main__":
     print(sigToken('test'))
     print(veriToken('test'))

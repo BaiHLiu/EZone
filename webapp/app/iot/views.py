@@ -4,10 +4,11 @@
 # @Author  : Catop
 # @File    : views.py
 # @Software: PyCharm
-import json
 import datetime
+import json
 
 from flask import Blueprint, request
+
 import webapp.libs as libs
 from webapp.utils import mysqlDB
 

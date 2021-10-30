@@ -32,7 +32,7 @@ app.register_blueprint(mockApp, url_prefix='/mock')
 app.register_blueprint(statisticsAPI, url_prefix='/statisticsAPI')
 
 if __name__ == '__main__':
-    statCache.rdsSetRTData()
+    statCache.scheduleInit()
     statCache.scheduler.start()
     app.run(host=webAppConfig.host, port=webAppConfig.port)
 

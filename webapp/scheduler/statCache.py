@@ -4,12 +4,15 @@
 # @Author  : Catop
 # @File    : statCache.py
 # @Software: PyCharm
+import datetime
+import json
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
+from webapp.app.statistics import stat
+from webapp.logging import logger
 from webapp.utils import mysqlDB
 from webapp.utils import rdsCache
-from webapp.logging import logger
 
 scheduler = BackgroundScheduler()
 
@@ -43,16 +46,31 @@ def rdsSetRTData():
     return
 
 
+def rdsSetHistoryDaysData():
+    """
+    缓存近7天所有设备总数数据
+    :return:
+    """
+    time_now = datetime.datetime.now()
+    for dayDelta in range(0, 7):
+        day = (time_now + datetime.timedelta(days=-dayDelta)).strftime("%Y-%m-%d")
+        data = stat.getDailySum(day)
+        print(data)
+        rdsCache.rds.set(f'statistics:historyDays:{day}', json.dumps(data))
+
+
 ##########################################################
 # 定时任务配置
-
+def scheduleInit():
+    rdsSetHistoryDaysData()
+    rdsSetRTData()
 # redis缓存实时状态
 scheduler.add_job(rdsSetRTData, 'interval', seconds=60)
+scheduler.add_job(rdsSetHistoryDaysData, 'interval', seconds=60)
 
 ##########################################################
-
-
 
 
 if __name__ == "__main__":
-    rdsSetRTData()
+    # rdsSetRTData()
+    rdsSetHistoryDaysData()

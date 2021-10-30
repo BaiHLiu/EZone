@@ -8,6 +8,7 @@
 
 from flask import Blueprint, request
 
+import json
 import webapp.libs as libs
 from webapp.app.statistics import stat
 from webapp.utils import mysqlDB
@@ -48,7 +49,9 @@ def getDailySumData():
     # 日期，格式为'2021-10-26'
     date = urlParams['date']
     try:
-        retData = stat.getDailySum(date)
+        # mysql查询已弃用，改为redis
+        # retData = stat.getDailySum(date)
+        retData = json.loads(rdsCache.rds.get(f'20:{date}'))
     except:
         return libs.apiResp.error(-1)
     else:
@@ -77,4 +80,16 @@ def getBuildingStatus():
             retList[devName] = 0
 
     return libs.apiResp.success(body=retList)
+
+
+@statisticsAPI.route('/getRoomStatus', methods = ['GET'])
+def getRoomStatus():
+    """
+    获取指定教室状态（当前人数、满载人数、当日历史）
+    :return:
+    """
+
+    urlParams = getReqData(request)
+    # 教室名称：J1-101
+    roomName = urlParams['roomName']
 

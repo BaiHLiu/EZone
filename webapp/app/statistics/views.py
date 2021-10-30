@@ -120,7 +120,7 @@ def getRoomStatus():
     date = urlParams['date']
 
     devId = mysqlDB.dbGet("SELECT id FROM dev_info WHERE name=%s", [roomName])[0]['id']
-    currentPeople = rdsCache.rds.get(f'iot:devRT:{devId}')
+    currentPeople = int(rdsCache.rds.get(f'iot:devRT:{devId}'))
     capacity = mysqlDB.dbGet("SELECT capacity FROM room_info WHERE name LIKE %s", [roomName + '%'])[0]['capacity']
     dayData = stat.getDayData(roomName, date)
 

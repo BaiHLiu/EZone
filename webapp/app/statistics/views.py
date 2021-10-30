@@ -7,6 +7,7 @@
 # 数据接口
 
 import json
+import random
 
 from flask import Blueprint, request
 
@@ -67,6 +68,15 @@ def getBuildingStatus():
     """
     urlParams = getReqData(request)
     buildingName = urlParams['buildingName']
+
+    # 0=实时，1=其他时间
+    timeType = 0
+
+    if 'date' in urlParams.keys() and 'period' in urlParams.keys():
+        day = urlParams['date']
+        period = urlParams['period']
+        timeType = 1
+
     retList = {}
 
     buildingDevList = mysqlDB.dbGet("SELECT id FROM dev_info WHERE buildingName=%s", [buildingName])
@@ -74,22 +84,28 @@ def getBuildingStatus():
     for dev in buildingDevList:
         devId = dev['id']
         devName = stat.getDevInfo(devId)[0]['name']
-        capacity = mysqlDB.dbGet("SELECT capacity FROM room_info WHERE name LIKE %s", [devName+'%'])
-        if len(capacity) >= 1:
-            capacity = capacity[0]['capacity']
+
+        if timeType == 0:
+            # 实时
+            capacity = mysqlDB.dbGet("SELECT capacity FROM room_info WHERE name LIKE %s", [devName + '%'])
+            if len(capacity) >= 1:
+                capacity = capacity[0]['capacity']
+            else:
+                # 无信息教室默认100人容量
+                capacity = 100
+            peopleNum = rdsCache.rds.get(f'iot:devRT:{devId}')
+            if peopleNum:
+                retList[devName] = {'peopleNum': int(peopleNum), 'capacity': int(capacity), 'available': 1}
+            else:
+                retList[devName] = {'peopleNum': 0, 'capacity': 100, 'available': 1}
         else:
-            # 无信息教室默认100人容量
-            capacity = 100
-        peopleNum = rdsCache.rds.get(f'iot:devRT:{devId}')
-        if peopleNum:
-            retList[devName] = {'peopleNum': int(peopleNum), 'capacity': int(capacity)}
-        else:
-            retList[devName] = {'peopleNum': 0, 'capacity': 100}
+            # 其他时间
+            retList[devName] = {'peopleNum': 0, 'capacity': 1, 'available': random.randint(0,1)}
 
     return libs.apiResp.success(body=retList)
 
 
-@statisticsAPI.route('/getRoomStatus', methods = ['GET'])
+@statisticsAPI.route('/getRoomStatus', methods=['GET'])
 def getRoomStatus():
     """
     获取指定教室状态（当前人数、满载人数、指定日信息）
@@ -103,7 +119,7 @@ def getRoomStatus():
 
     devId = mysqlDB.dbGet("SELECT id FROM dev_info WHERE name=%s", [roomName])[0]['id']
     currentPeople = rdsCache.rds.get(f'iot:devRT:{devId}')
-    capacity = mysqlDB.dbGet("SELECT capacity FROM room_info WHERE name LIKE %s", [roomName+'%'])[0]['capacity']
+    capacity = mysqlDB.dbGet("SELECT capacity FROM room_info WHERE name LIKE %s", [roomName + '%'])[0]['capacity']
     dayData = stat.getDayData(roomName, date)
 
     retBody = {
@@ -113,5 +129,3 @@ def getRoomStatus():
     }
 
     return libs.apiResp.success(body=retBody)
-
-

@@ -55,7 +55,6 @@ def rdsSetHistoryDaysData():
     for dayDelta in range(0, 7):
         day = (time_now + datetime.timedelta(days=-dayDelta)).strftime("%Y-%m-%d")
         data = stat.getDailySum(day)
-        print(data)
         rdsCache.rds.set(f'statistics:historyDays:{day}', json.dumps(data))
 
 

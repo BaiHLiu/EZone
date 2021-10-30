@@ -6,9 +6,10 @@
 # @Software: PyCharm
 # 数据接口
 
+import json
+
 from flask import Blueprint, request
 
-import json
 import webapp.libs as libs
 from webapp.app.statistics import stat
 from webapp.utils import mysqlDB
@@ -73,11 +74,17 @@ def getBuildingStatus():
     for dev in buildingDevList:
         devId = dev['id']
         devName = stat.getDevInfo(devId)[0]['name']
+        capacity = mysqlDB.dbGet("SELECT capacity FROM room_info WHERE name LIKE %s", [devName+'%'])
+        if len(capacity) >= 1:
+            capacity = capacity[0]['capacity']
+        else:
+            # 无信息教室默认100人容量
+            capacity = 100
         peopleNum = rdsCache.rds.get(f'iot:devRT:{devId}')
         if peopleNum:
-            retList[devName] = peopleNum
+            retList[devName] = {'peopleNum': int(peopleNum), 'capacity': int(capacity)}
         else:
-            retList[devName] = 0
+            retList[devName] = {'peopleNum': 0, 'capacity': 100}
 
     return libs.apiResp.success(body=retList)
 

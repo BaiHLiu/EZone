@@ -3,3 +3,4 @@
 __pycache__
 /webapp/config.py
 /uploader/initTools/*
+/webapp/app/mock/roomList.json

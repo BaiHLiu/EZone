@@ -52,7 +52,8 @@ def getDayData(roomName, date):
     retDict = {}
     devId = mysqlDB.dbGet("SELECT id FROM dev_info WHERE name=%s", [roomName])[0]['id']
 
-    uploadList = mysqlDB.dbGet("SELECT people_num,upload_time FROM upload_log WHERE dev_id=%s AND upload_time LIKE %s", [devId,date+'%'])
+    uploadList = mysqlDB.dbGet("SELECT people_num,upload_time FROM upload_log WHERE dev_id=%s AND upload_time LIKE %s",
+                               [devId, date + '%'])
     for up in uploadList:
         retDict[str(up['upload_time'])] = up['people_num']
 
@@ -67,7 +68,6 @@ def getRangeDaysData(roomName, dayBegin, dayEnd):
     :param dayEnd:
     :return:
     """
-
 
 
 if __name__ == '__main__':

@@ -92,11 +92,26 @@ def getBuildingStatus():
 @statisticsAPI.route('/getRoomStatus', methods = ['GET'])
 def getRoomStatus():
     """
-    获取指定教室状态（当前人数、满载人数、当日历史）
+    获取指定教室状态（当前人数、满载人数、指定日信息）
     :return:
     """
 
     urlParams = getReqData(request)
     # 教室名称：J1-101
     roomName = urlParams['roomName']
+    date = urlParams['date']
+
+    devId = mysqlDB.dbGet("SELECT id FROM dev_info WHERE name=%s", [roomName])[0]['id']
+    currentPeople = rdsCache.rds.get(f'iot:devRT:{devId}')
+    capacity = mysqlDB.dbGet("SELECT capacity FROM room_info WHERE name LIKE %s", [roomName+'%'])[0]['capacity']
+    dayData = stat.getDayData(roomName, date)
+
+    retBody = {
+        'currentPeople': currentPeople,
+        'capacity': capacity,
+        'dayData': dayData
+    }
+
+    return libs.apiResp.success(body=retBody)
+
 

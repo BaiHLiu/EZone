@@ -95,12 +95,14 @@ def getBuildingStatus():
                 capacity = 100
             peopleNum = rdsCache.rds.get(f'iot:devRT:{devId}')
             if peopleNum:
-                retList[devName] = {'peopleNum': int(peopleNum), 'capacity': int(capacity), 'available': 1}
+                retList[devName] = {'peopleNum': int(peopleNum), 'capacity': int(capacity), 'available': 1,
+                                    'occupy_rate': round(int(peopleNum) / int(capacity), 2)}
             else:
-                retList[devName] = {'peopleNum': 0, 'capacity': 100, 'available': 1}
+                retList[devName] = {'peopleNum': 0, 'capacity': 100, 'available': 1, 'occupy_rate': round(0, 2)}
         else:
             # 其他时间
-            retList[devName] = {'peopleNum': 0, 'capacity': 1, 'available': random.randint(0,1)}
+            retList[devName] = {'peopleNum': 0, 'capacity': 1, 'available': random.randint(0, 1),
+                                'occupy_rate': round(0, 2)}
 
     return libs.apiResp.success(body=retList)
 

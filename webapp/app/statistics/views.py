@@ -51,7 +51,7 @@ def getDailySumData():
     try:
         # mysql查询已弃用，改为redis
         # retData = stat.getDailySum(date)
-        retData = json.loads(rdsCache.rds.get(f'20:{date}'))
+        retData = json.loads(rdsCache.rds.get(f'statistics:historyDays:{date}'))
     except:
         return libs.apiResp.error(-1)
     else:

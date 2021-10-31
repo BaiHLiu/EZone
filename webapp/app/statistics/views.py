@@ -84,10 +84,11 @@ def getBuildingStatus():
     for dev in buildingDevList:
         devId = dev['id']
         devName = stat.getDevInfo(devId)[0]['name']
+        capacity = mysqlDB.dbGet("SELECT capacity FROM room_info WHERE name LIKE %s", [devName + '%'])
 
         if timeType == 0:
             # 实时
-            capacity = mysqlDB.dbGet("SELECT capacity FROM room_info WHERE name LIKE %s", [devName + '%'])
+
             if len(capacity) >= 1:
                 capacity = capacity[0]['capacity']
             else:
@@ -101,7 +102,7 @@ def getBuildingStatus():
                 retList[devName] = {'peopleNum': 0, 'capacity': 100, 'available': 1, 'occupy_rate': round(0, 2)}
         else:
             # 其他时间
-            retList[devName] = {'peopleNum': 0, 'capacity': 1, 'available': random.randint(0, 1),
+            retList[devName] = {'peopleNum': 0, 'capacity': capacity, 'available': random.randint(0, 1),
                                 'occupy_rate': round(0, 2)}
 
     return libs.apiResp.success(body=retList)

@@ -86,14 +86,14 @@ def getBuildingStatus():
         devName = stat.getDevInfo(devId)[0]['name']
         capacity = mysqlDB.dbGet("SELECT capacity FROM room_info WHERE name LIKE %s", [devName + '%'])
 
+        if len(capacity) >= 1:
+            capacity = capacity[0]['capacity']
+        else:
+            # 无信息教室默认100人容量
+            capacity = 100
+
         if timeType == 0:
             # 实时
-
-            if len(capacity) >= 1:
-                capacity = capacity[0]['capacity']
-            else:
-                # 无信息教室默认100人容量
-                capacity = 100
             peopleNum = rdsCache.rds.get(f'iot:devRT:{devId}')
             if peopleNum:
                 retList[devName] = {'peopleNum': int(peopleNum), 'capacity': int(capacity), 'available': 1,
@@ -102,7 +102,7 @@ def getBuildingStatus():
                 retList[devName] = {'peopleNum': 0, 'capacity': 100, 'available': 1, 'occupy_rate': round(0, 2)}
         else:
             # 其他时间
-            retList[devName] = {'peopleNum': 0, 'capacity': capacity, 'available': random.randint(0, 1),
+            retList[devName] = {'peopleNum': 0, 'capacity': int(capacity), 'available': random.randint(0, 1),
                                 'occupy_rate': round(0, 2)}
 
     return libs.apiResp.success(body=retList)

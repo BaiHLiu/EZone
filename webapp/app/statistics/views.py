@@ -96,8 +96,12 @@ def getBuildingStatus():
             # 实时
             peopleNum = rdsCache.rds.get(f'iot:devRT:{devId}')
             if peopleNum:
+                occupt_rate = int(peopleNum) / int(capacity)
+                if(occupt_rate * 1.2 < 1):
+                    occupt_rate *= 1.2
+
                 retList[devName] = {'peopleNum': int(peopleNum), 'capacity': int(capacity), 'available': 1,
-                                    'occupy_rate': round(int(peopleNum) / int(capacity), 2)}
+                                    'occupy_rate': round(occupt_rate,2)}
             else:
                 retList[devName] = {'peopleNum': 0, 'capacity': 100, 'available': 1, 'occupy_rate': round(0, 2)}
         else:

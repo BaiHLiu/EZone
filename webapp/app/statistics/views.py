@@ -103,7 +103,7 @@ def getBuildingStatus():
         else:
             # 其他时间
             retList[devName] = {'peopleNum': 0, 'capacity': int(capacity), 'available': random.randint(0, 1),
-                                'occupy_rate': round(0, 2)}
+                                'occupy_rate': round(1, 2)}
 
     return libs.apiResp.success(body=retList)
 
@@ -132,3 +132,14 @@ def getRoomStatus():
     }
 
     return libs.apiResp.success(body=retBody)
+
+
+@statisticsAPI.route('/getEachBuildingOverallRTData', methods=['GET'])
+def getEachBuildingOverallRTData():
+    """
+    各教学楼实时人数和占用率
+    :return:
+    """
+    data = json.loads(rdsCache.rds.get('statistics:EachBuildingOverallRTData'))
+
+    return libs.apiResp.success(body=data)

@@ -74,7 +74,6 @@ def login():
                 'name': userInfo['name'],
                 'type': userInfo['type'],
                 'department': userInfo['department'],
-                'openid': userInfo['openid'],
                 'token': token
             }
             params = [session_key, openid]
@@ -92,10 +91,14 @@ def login():
 def checkStatus():
     '''检查登陆状态'''
     data = getReqData(request)
-    openid = data['openid']
+    # openid = data['openid']
     token = data['token']
 
+    # 传入token对应的openid
+    openid = rdsCache.rds.get(f'user:openid:{str(token)}')
+    # openid对应的正确token
     validToken = rdsCache.veriToken(openid)
+
     if validToken == token:
         params = [openid]
         # 查询并返回用户信息
@@ -109,7 +112,6 @@ def checkStatus():
                 'name': userInfo['name'],
                 'type': userInfo['type'],
                 'department': userInfo['department'],
-                'openid': userInfo['openid'],
             }
 
         ret = libs.apiResp.success(body=retData, msg='1')

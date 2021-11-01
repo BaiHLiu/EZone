@@ -20,8 +20,10 @@ def sigToken(openid):
     :return:
     """
     token = uuid.uuid4()
-    keyName = f'user:token:{str(openid)}'
-    rds.set(keyName, str(token))
+    # 双向键：user:token:{openid}->token
+    #       user:openid:{token}->openid
+    rds.set(f'user:token:{str(openid)}', str(token))
+    rds.set(f'user:openid:{str(token)}', str(openid))
 
     return token
 

@@ -33,6 +33,14 @@ def getDailySum(date):
         devId = upinfo['dev_id']
         peopleNum = upinfo['people_num']
         upTime = str(upinfo['upload_time'])
+        # 分钟统一化处理：10的[0,5]倍
+        upMin = int(int(upTime.split(':')[1])/10)
+        upMin = upMin*10
+        upMin = str(upMin).zfill(2)
+
+        # 秒数统一化处理为0
+        upTime = upTime.split(':')[0]+':'+upMin+':00'
+
 
         if upTime in timelyData.keys():
             timelyData[upTime] += peopleNum

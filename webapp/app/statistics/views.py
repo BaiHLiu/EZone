@@ -147,3 +147,4 @@ def getEachBuildingOverallRTData():
     data = json.loads(rdsCache.rds.get('statistics:EachBuildingOverallRTData'))
 
     return libs.apiResp.success(body=data)
+

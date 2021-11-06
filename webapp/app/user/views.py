@@ -13,6 +13,7 @@ from webapp.utils import rdsCache
 
 userAPI = Blueprint('userAPI', __name__)
 
+
 # alias
 def getReqData(request):
     data = libs.request.request_parse(request)
@@ -119,3 +120,28 @@ def checkStatus():
         ret = libs.apiResp.success(msg='0')
 
     return ret
+
+
+@userAPI.route('/delete_user', methods=['GET'])
+def delete_user():
+    """
+    删除用户
+    :return:
+    """
+
+    data = getReqData(request)
+    # 微信js_code
+    code = data['code']
+    # 获取openid和session_key
+    try:
+        sessionInfo = wxapi.code2Session(code)
+    except Exception as err:
+        return libs.apiResp.error(-1, str(err))
+
+    userInfo = mysqlDB.dbGet("SELECT * FROM userinfo WHERE openid=%s", sessionInfo['openid'])
+
+    if len(userInfo) > 0:
+        mysqlDB.dbSet("DELETE FROM userinfo WHERE openid=%s LIMIT 1", sessionInfo['openid'])
+        return libs.apiResp.success()
+    else:
+        return libs.apiResp.error(-2, msg='无此用户')

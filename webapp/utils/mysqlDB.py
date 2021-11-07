@@ -17,7 +17,8 @@ def dbGet(sql, params):
     :return: 查询的所有结果字典
     '''
     conn = pymysql.connect(host=mysqlConfig.host, port=mysqlConfig.port, user=mysqlConfig.username,
-                           passwd=mysqlConfig.password, db=mysqlConfig.db, charset='utf8')
+                           passwd=mysqlConfig.password, db=mysqlConfig.db, charset='utf8', write_timeout=60,
+                           read_timeout=60, connect_timeout=60)
 
     cursor = conn.cursor(pymysql.cursors.DictCursor)
     cursor.execute(sql, params)
@@ -33,7 +34,8 @@ def dbSet(sql, params):
     :return: 受影响行数或主键id
     '''
     conn = pymysql.connect(host=mysqlConfig.host, port=mysqlConfig.port, user=mysqlConfig.username,
-                           passwd=mysqlConfig.password, db=mysqlConfig.db, charset='utf8')
+                           passwd=mysqlConfig.password, db=mysqlConfig.db, charset='utf8', write_timeout=60,
+                           read_timeout=60, connect_timeout=60)
 
     cursor = conn.cursor()
     effectRow = cursor.execute(sql, params)
@@ -44,10 +46,6 @@ def dbSet(sql, params):
     else:
         conn.commit()
         return effectRow
-
-
-
-
 
 
 def test():

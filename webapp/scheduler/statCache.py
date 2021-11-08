@@ -103,10 +103,14 @@ def rdsSetEachBuildingOverallRTData():
 
                 buildPeopleSum += int(people)
 
+            occupy_rate = round(buildPeopleSum / buildCapacitySum, 2)
+            if occupy_rate < 0.05:
+                occupy_rate = 0.05
+
             buildInfo = {
                 'buildName': buildName,
                 'buildPeopleSum': buildPeopleSum,
-                'buildOccupyRate': round(buildPeopleSum / buildCapacitySum, 2),
+                'buildOccupyRate': occupy_rate,
                 'buildRoomNum': len(devList),
             }
             retList.append(buildInfo)

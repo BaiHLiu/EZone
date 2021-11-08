@@ -99,8 +99,8 @@ def getBuildingStatus():
                 occupt_rate = int(peopleNum) / int(capacity)
                 if(occupt_rate * 1.2 < 1):
                     occupt_rate *= 1.2
-
-                retList[devName] = {'peopleNum': int(peopleNum), 'capacity': int(capacity), 'available': 1,
+                #TODO:使用真实数据
+                retList[devName] = {'peopleNum': int(peopleNum), 'capacity': int(capacity), 'available': random.randint(0,1),
                                     'occupy_rate': round(occupt_rate,2)}
             else:
                 retList[devName] = {'peopleNum': 0, 'capacity': 100, 'available': 1, 'occupy_rate': round(0, 2)}

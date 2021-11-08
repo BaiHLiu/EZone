@@ -9,24 +9,6 @@ import pymysql
 
 from webapp.config import mysqlConfig
 
-conn = pymysql.connect(host=mysqlConfig.host, port=mysqlConfig.port, user=mysqlConfig.username,
-                       passwd=mysqlConfig.password, db=mysqlConfig.db, charset='utf8', write_timeout=60,
-                       read_timeout=60, connect_timeout=60)
-
-def reconnect(conn):
-    try:
-        conn.ping()
-        return conn
-    except:
-        connRe = pymysql.connect(host=mysqlConfig.host, port=mysqlConfig.port, user=mysqlConfig.username,
-                               passwd=mysqlConfig.password, db=mysqlConfig.db, charset='utf8', write_timeout=60,
-                               read_timeout=60, connect_timeout=60)
-        return connRe
-
-
-
-
-
 
 def dbGet(sql, params):
     '''
@@ -34,9 +16,11 @@ def dbGet(sql, params):
     :param sql: sql语句
     :return: 查询的所有结果字典
     '''
-    db = reconnect(conn)
+    conn = pymysql.connect(host=mysqlConfig.host, port=mysqlConfig.port, user=mysqlConfig.username,
+                           passwd=mysqlConfig.password, db=mysqlConfig.db, charset='utf8', write_timeout=60,
+                           read_timeout=60, connect_timeout=60)
 
-    cursor = db.cursor(pymysql.cursors.DictCursor)
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
     cursor.execute(sql, params)
     data = cursor.fetchall()
 
@@ -49,16 +33,18 @@ def dbSet(sql, params):
     :param sql: sql语句
     :return: 受影响行数或主键id
     '''
-    db = reconnect(conn)
+    conn = pymysql.connect(host=mysqlConfig.host, port=mysqlConfig.port, user=mysqlConfig.username,
+                           passwd=mysqlConfig.password, db=mysqlConfig.db, charset='utf8', write_timeout=60,
+                           read_timeout=60, connect_timeout=60)
 
-    cursor = db.cursor()
+    cursor = conn.cursor()
     effectRow = cursor.execute(sql, params)
     if sql.split(' ')[0] == 'INSERT':
-        insertId = db.insert_id()
-        db.commit()
+        insertId = conn.insert_id()
+        conn.commit()
         return insertId
     else:
-        db.commit()
+        conn.commit()
         return effectRow
 
 

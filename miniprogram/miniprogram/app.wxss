@@ -1,0 +1,17 @@
+/**app.wxss**/
+@import './miniprogram_npm/weui-miniprogram/weui-wxss/dist/style/weui.wxss';
+.container {
+    position: absolute;
+    top: 400rpx;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+  } 
+  

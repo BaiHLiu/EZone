@@ -1,0 +1,12 @@
+{
+
+  "backgroundColor": "#F7F7F7",
+
+  "comment": "响应式布局,换行排列",
+  "usingComponents": {
+    "mp-col": "@miniprogram-component-plus/col",
+    "mp-row": "@miniprogram-component-plus/row"
+  }
+
+
+}

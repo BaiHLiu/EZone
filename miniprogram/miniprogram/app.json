@@ -1,0 +1,46 @@
+{
+    "pages": [
+        "pages/mainPage/index",
+        "pages/chart/index",
+        "pages/me/index"
+    ],
+    "window": {
+        "comment": "未知",
+        "navigationBarTextStyle": "@navigationBarTextStyle",
+        "navigationBarTitleText": "智能空间可视化系统",
+        "navigationBarBackgroundColor": "@navigationBarBackgroundColor",
+        "backgroundColor": "@backgroundColor"
+    },
+    "tabBar": {
+        "comment": "选项卡栏列表",
+        "color": "@tabBarColor",
+        "selectedColor": "@tabBarSelectedColor",
+        "borderStyle": "@tabBarBorderStyle",
+        "backgroundColor": "@tabBarBackgroundColor",
+        "list": [
+            {
+                "pagePath": "pages/mainPage/index",
+                "comment": "该选项卡名称",
+                "iconPath": "@icon_path_main",
+                "selectedIconPath": "@selected_icon_path_main",
+                "text": "教室状态"
+            },
+            {
+                "pagePath": "pages/chart/index",
+                "comment": "该选项卡名称",
+                "iconPath": "@icon_path_chart",
+                "selectedIconPath": "@selected_icon_path_chart",
+                "text": "统计"
+            },
+            {
+                "pagePath": "pages/me/index",
+                "iconPath": "@icon_path_user",
+                "selectedIconPath": "@selected_icon_path_user",
+                "text": "我"
+            }
+        ]
+    },
+    "themeLocation": "theme.json",
+    "darkmode": false,
+    "sitemapLocation": "sitemap.json"
+}

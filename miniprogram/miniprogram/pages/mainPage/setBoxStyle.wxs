@@ -1,0 +1,43 @@
+
+// var changestyle = function(newStyle, ownerInstance) {
+// 		var instance = ownerInstance.selectComponent('.room-text-box') // 返回组件的实例
+// 		instance.setStyle({
+// 				"width": newStyle[0] + 'px',
+// 				"height": newStyle[1] + 'px',
+// 				"top": newStyle[2] + 'px',
+// 				"left": newStyle[3] + 'px',
+// 				"position": '0px'
+// 		})
+// 		return false // 不往上冒泡，相当于调用了同时调用了stopPropagation和preventDefault
+// }
+module.exports = {
+	// changeStyle: changestyle,
+
+	propObserver: function(newStyle, oldStyle, ownerInstance, instance) {
+			// changestyle()
+			if (typeof(newStyle) != typeof(undefined)) {
+				// changestyle(newStyle, ownerInstance)
+				if( newStyle[0] == 1 ) {
+					ownerInstance.selectComponent('.room-text-box').setStyle({
+						"top": "-" + newStyle[1]  + "px",
+					})
+					// console.log("height: " + newStyle[1])
+				} // else if( newStyle[0] == 1 ) {
+				// 	ownerInstance.selectComponent('.room-text-box').setStyle({
+				// 		"top": "-" + newStyle[1]  + "px",
+				// 	})
+				// } else if ( newStyle[0] == 2 ) {
+				// 	ownerInstance.selectComponent('.testclass2').setStyle({
+				// 		"height":  newStyle[1]  + "px",
+				// 	})
+				// } //else if ( newStyle[0] == 2 ) {
+				// 	ownerInstance.selectComponent('.room-text').setStyle({
+				// 		"margin":  newStyle[1]  + "rpx",
+				// 	})
+				// 	console.log("margin: " + newStyle[1])
+				// }
+				
+			} 
+			// console.log('prop observer:\nnewStyle: ' +  newStyle + "\noldStyle: " + oldStyle)
+	}
+}

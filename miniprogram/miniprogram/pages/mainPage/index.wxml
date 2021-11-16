@@ -1,0 +1,98 @@
+<!--pages/mainPage/index.wxml-->
+
+
+<view class="body">
+
+	<view class="card">
+		<view class="card-title">
+			<view style="margin-left: 17px;">{{title}}</view>	<!-- 卡片标题文字内容 -->
+		</view>
+
+		<!-- testtext：{{testtext}} -->
+	
+	
+		<view class="selected-building" style="flex-direction:row;"><!-- 滚轮及查询按钮 -->
+		
+			<picker-view  indicator-style="height: 50px;" style="width: 100%; height: 300rpx; " value="{{value}}" bindchange="bindChange" >
+
+				<picker-view-column class="picker-inner">
+					<view wx:for="{{dates}}" wx:key="dates" style="line-height: 50px; text-align: center;">{{item}}</view>
+				</picker-view-column>
+
+				<picker-view-column class="picker-inner">
+					<view wx:for="{{buildings}}" wx:key="buildings" style="line-height: 50px; text-align: center;">{{item}}</view>
+				</picker-view-column>
+
+				<picker-view-column  class="picker-inner">
+									<view wx:for="{{timeInterval}}" wx:key="timeInterval" style="line-height: 50px; text-align: center;">{{item}}</view>
+								</picker-view-column>
+				
+
+				<!-- <view class="space"></view>
+				<button type="primary" class="button-check" style="background-color: #2196f3;">查询</button> -->
+			</picker-view>
+				
+		</view>
+
+	  <!-- value:{{value}} -->
+		
+	</view>
+
+
+	<mp-row class="item-style-box">
+		<mp-col xs="12" sm="12" md="12" lg="12" xl="12" >
+			<view class="item-available-style" style="background-color: {{availableColor}};">
+				<view class="item-available-style-text">{{item_available_style_text}}</view><!-- 记得测试一下某些机器的自定义字体 -->
+			</view>
+		</mp-col>
+
+		<mp-col xs="12" sm="12" md="12" lg="12" xl="12" >
+			<view class="item-unavailable-style" style="background-color: {{unavailableColor}};">
+				<view class="item-available-style-text">{{item_unavailable_style_text}}</view>
+			</view>
+		</mp-col>
+	</mp-row>
+
+
+	<view class="bigbox">
+		<mp-row class="room-progress">
+			<mp-col class="testclass1" wx:for="{{roomjson.body}}" wx:key="prompt" xs="6" sm="4" md="3" lg="3" xl="3" >
+				<block wx:if="{{item.available == 1}}">
+					<progress class="progress-available" percent="{{item.occupy_rate * 100}}" active stroke-width="30" active-color="{{availableColor}}" border-radius="5" background-color="#E5E7E9" duration="{{progressDuration}}"></progress>
+				</block> <block wx:else>
+					<progress class="progress-unavailable" percent="{{item.occupy_rate * 100}}" active stroke-width="30" active-color="{{unavailableColor}}" border-radius="5" background-color="#E5E7E9" duration="{{progressDuration}}"></progress>
+				</block>
+			</mp-col>			
+		</mp-row>
+		
+		<mp-row class="room-text-box" >
+			<mp-col class="testclass2" wx:for="{{roomjson.body}}" wx:key="prompt" xs="6" sm="4" md="3" lg="3" xl="3" >
+				<view class="room-text">
+					{{index}}
+				</view> 
+			</mp-col>
+		</mp-row>
+		
+		<!-- testjson: -->
+		<!-- <mp-row class="room-progress">
+			<mp-col class="testclass1" wx:for="{{testjson.prompt}}" wx:key="prompt" xs="6" sm="4" md="3" lg="3" xl="3" >
+				<block wx:if="{{item.available == 1}}">
+					<progress class="progress-available" percent="{{item.occupy_rate * 100}}" active stroke-width="30" active-color="#1aad19" border-radius="5" background-color="#999999" ></progress>
+				</block> <block wx:else>
+					<progress class="progress-unavailable" percent="{{item.occupy_rate * 100}}" active stroke-width="30" active-color="#cac424" border-radius="5" background-color="#999999" ></progress>
+				</block>
+			</mp-col>			
+		</mp-row>
+		
+		<mp-row class="room-text-box" >
+			<mp-col class="testclass2" wx:for="{{testjson.prompt}}" wx:key="prompt" xs="6" sm="4" md="3" lg="3" xl="3" >
+				<view class="room-text">
+					{{item.room_name}}
+				</view> 
+			</mp-col>
+		</mp-row> -->
+	</view>
+</view>
+
+<wxs src="./setBoxStyle.wxs"  module="setBoxStyle" />
+<view change:prop="{{setBoxStyle.propObserver}}" prop="{{propValue}}" ></view>

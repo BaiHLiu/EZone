@@ -1,0 +1,28 @@
+/**index.wxss**/
+ec-canvas {
+  width: 100%;
+  height: 100%;
+}
+.selected-building {
+	/* width: 100%;
+	height: 500rpx;
+	background: #f00; */
+}
+.card-title {
+	margin: 0px;
+	flex-shrink: 0;
+	font-family: "Open Sans", sans-serif;
+	position: relative;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	
+	/* background: #ddd; */
+	text-align: left;
+
+	border-left: 3px solid #4ea8c3;
+}
+
+.picker-inner {
+	background-color:rgba(172,172,172,0); 
+}

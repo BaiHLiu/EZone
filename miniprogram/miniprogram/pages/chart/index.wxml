@@ -1,0 +1,38 @@
+<!--index.wxml-->
+<view style="margin: 20px;">
+	<view class="card-title">
+			<view style="margin-left: 17px;">历史和实时统计</view>	<!-- 卡片标题文字内容 -->
+		</view>
+	<view class="selected-building" style="flex-direction:row;"><!-- 滚轮及查询按钮 -->
+		
+		<picker-view  indicator-style="height: 50px;" style="width: 100%; height: 300rpx; " value="{{value}}" bindchange="bindChange" >
+
+			<picker-view-column class="picker-inner">
+				<view wx:for="{{years}}" wx:key="dates" style="line-height: 50px; text-align: center;">{{item}}年</view>
+			</picker-view-column>
+
+			<picker-view-column class="picker-inner">
+				<view wx:for="{{months}}" wx:key="buildings" style="line-height: 50px; text-align: center;">{{item}}月</view>
+			</picker-view-column>
+
+			<picker-view-column  class="picker-inner">
+								<view wx:for="{{days}}" wx:key="timeInterval" style="line-height: 50px; text-align: center;">{{item}}日</view>
+			</picker-view-column>
+			 
+
+			<!-- <view class="space"></view>
+			<button type="primary" class="button-check" style="background-color: #2196f3;">查询</button> -->
+		</picker-view>
+			
+	</view>
+	<!-- {{testtext}}{{value}} -->
+
+	<view class="container" style="height: 150%;">
+		<!-- <ec-canvas id="mychart-dom-line" canvas-id="mychart-line" ec="{{ec1}}"></ec-canvas> -->
+		<ec-canvas wx:if="{{!isDisposed}}" id="Line-chart" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
+		<ec-canvas id="Bar-chart" canvas-id="mychart-bar2" ec="{{ ecBar }}"></ec-canvas>
+		<ec-canvas id="Pie-chart" canvas-id="mychart-Pie" ec="{{ ecPie }}"></ec-canvas>
+	</view>
+	
+</view>
+
